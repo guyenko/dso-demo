@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Static Analysis') {
       parallel {
-        stage {'SCA'} {
+        stage ('SCA') {
           steps {
             container('maven') { 
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
