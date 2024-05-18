@@ -37,8 +37,7 @@ pipeline {
         stage('Generate SBOM') {
           steps {
             container('maven') {
-              sh  'mvn
-    org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+              sh  'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
             }
           }
           post {
