@@ -7,9 +7,9 @@ pipeline {
     }
   }
   stages {
-    stage('Build') {
+    stage ('Build') {
       parallel {
-        stage('Compile') {
+        stage ('Compile') {
           steps {
             container('maven') {
               sh 'mvn compile'
@@ -18,11 +18,11 @@ pipeline {
         }
       }
     }
-    stage('Static Analysis') {
+    stage ('Static Analysis') {
       parallel {
         stage ('SCA') {
           steps {
-            container('maven') { 
+            container ('maven') { 
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh 'mvn org.owasp:dependency-check-maven:check'
               }
@@ -34,7 +34,8 @@ pipeline {
               // dependencyCheckPublisher pattern: 'report.xml'
             }
           }
-        stage('Generate SBOM') {
+        }
+        stage ('Generate SBOM') {
           steps {
             container('maven') {
               sh  'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
@@ -48,9 +49,9 @@ pipeline {
             }
           }
         }
-      stage ('OSS License Checker') {
+      stage ('OSS License Checker')  {
           steps {
-            container('licensefinder') {
+            container('licensefinder')  {
               sh 'ls -al'
               sh '''#!/bin/bash --login
                       /bin/bash --login
@@ -61,15 +62,13 @@ pipeline {
             }
           }
         }
-      stage('Unit Tests') {
+      stage ('Unit Tests') {
           steps {
             container('maven') {
               sh 'mvn test'
             }
           }
         }
-      }
-    }
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
@@ -79,6 +78,8 @@ pipeline {
             }
           }
         }
+      }
+    }
    stage ('OCI Image BnP') { 
       steps { 
         container('kaniko') { 
@@ -95,7 +96,3 @@ pipeline {
       }
     }
   }
-}
-  }
-}
-}
