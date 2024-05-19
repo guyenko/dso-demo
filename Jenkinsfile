@@ -71,8 +71,8 @@ pipeline {
 
         stage('SAST') {
             steps {
-                container ('slscan') {
-                    sh 'scan --type java,depscan --build'
+                container('slscan') {
+                    sh 'scan --type java, depscan --build'
                 }
             }
             post {
