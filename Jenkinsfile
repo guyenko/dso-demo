@@ -69,7 +69,7 @@ pipeline {
             } // End parallel block here
         } 
 
-        stage('SAST' {
+        stage('SAST') {
             steps {
                 container ('slscan') {
                     sh 'scan --type java,depscan --build'
